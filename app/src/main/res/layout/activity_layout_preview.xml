@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:background="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/player_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:buffered_color="@color/color_theme"
+            app:show_buffering="when_playing"
+            app:use_controller="false" />
+
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/photo_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/action_close"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginTop="16dp"
+            app:srcCompat="@drawable/icon_close"
+            app:tint="@color/color_white"
+            android:layout_width="20dp"
+            android:layout_height="@dimen/dimen_20"/>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="@dimen/dp_60"
+            android:id="@+id/action_ok"
+            android:layout_gravity="right|top"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:gravity="center"
+            android:text="@string/preview_ok"
+            android:backgroundTint="@color/color_theme"
+            app:cornerRadius="5dp"
+            android:layout_height="30dp"/>
+    </FrameLayout>
+</layout>

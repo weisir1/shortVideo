@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="feed"
+            type="com.example.shortvideo.model.Feed" />
+
+        <import type="com.example.libcommon.util.PixUtils" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:paddingHorizontal="@dimen/dp_16"
+                android:src="@drawable/icon_back_black" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/feed_detail_type_image_title"
+                android:textColor="@color/color_000"
+                android:textSize="@dimen/dp_16" />
+
+            <include
+                android:id="@+id/author_info"
+                layout="@layout/layout_feed_detail_author_info"
+                android:visibility="gone"
+                app:feed="@{feed}"
+                app:fullscreen="@{false}"
+                app:leftMargin="@{PixUtils.dp2px(60)}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="@color/color_gray" />
+
+
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <include
+            android:id="@+id/interaction_layouts"
+            layout="@layout/layout_feed_detail_bottom_interaction"
+            app:feed="@{feed}"
+            app:fullscreen="@{false}" />
+    </LinearLayout>
+</layout>
