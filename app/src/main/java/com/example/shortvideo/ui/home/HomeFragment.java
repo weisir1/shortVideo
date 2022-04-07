@@ -21,12 +21,12 @@ import java.util.List;
 public class HomeFragment extends AbsListFragment<Feed, HomeViewModel> {
 
     private String feedType;
-    private boolean  shouldPause = true;
+    private boolean shouldPause = true;
 
     public static HomeFragment newInstance(String feedType) {
 
         Bundle args = new Bundle();
-        args.putString("feedType",feedType);
+        args.putString("feedType", feedType);
         HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
         return fragment;
@@ -46,8 +46,19 @@ public class HomeFragment extends AbsListFragment<Feed, HomeViewModel> {
     @Override
     public PagedListAdapter getAdapter() {
         feedType = getArguments() == null ? "" : getArguments().getString("feedType");
-        Log.i("WeiSir", "getAdapter: " + feedType);
-        return new FeedAdapter(getContext(), feedType){
+        return new FeedAdapter(getContext(), feedType) {
+            @Override
+            public void onViewAttachedToWindow2(ViewHolder holder) {
+                if (holder.isVideoItem()) {
+                    detector.addTarget(holder.getListPlayerView());
+                }
+            }
+
+            @Override
+            public void onViewDetachedFromWindow2(ViewHolder holder) {
+                detector.removeTarget(holder.getListPlayerView());
+            }
+
             @Override
             public void onStartFeedDetailActivity(Feed item) {
 //                实现详情页无缝续播, 需要在getAdapter点击item事件发生以后 回调此方法 ,判断点击item为视频 不允许暂停
@@ -86,7 +97,6 @@ public class HomeFragment extends AbsListFragment<Feed, HomeViewModel> {
     }
 
 
-
     //    下拉刷新
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -101,17 +111,20 @@ public class HomeFragment extends AbsListFragment<Feed, HomeViewModel> {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden){
+        if (hidden) {
 //            暂停自动播放
-        }else {
+            detector.onPause();
+        } else {
 //            开启自动播放
+            detector.onResume();
         }
     }
 
     @Override
     public void onPause() {
-        if (shouldPause){
-
+//        跳转详情页时 不能暂停播放(要实现无缝续播),其他类型的界面切换 不考虑
+        if (shouldPause) {
+            detector.onPause();
         }
         super.onPause();
     }
@@ -119,5 +132,16 @@ public class HomeFragment extends AbsListFragment<Feed, HomeViewModel> {
     @Override
     public void onResume() {
         super.onResume();
+        shouldPause = true;
+//        sofaFragment中tabFragment引用了此fragment 所以只有当前parentFragment和Fragment都可见,才能恢复视频播放
+        if (getParentFragment() != null) {
+            if (getParentFragment().isVisible() && isVisible()) {
+                detector.onResume();
+            }
+        } else { //在tabFragment中,homefragment放在viewpager中, 重新可见时显示 ??? 不理解
+            if (isVisible()) {
+                detector.onResume();
+            }
+        }
     }
 }

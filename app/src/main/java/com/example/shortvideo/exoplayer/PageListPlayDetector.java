@@ -34,6 +34,7 @@ public class PageListPlayDetector {
 
     public PageListPlayDetector(LifecycleOwner owner, RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
+//        生命周期监听注册
         owner.getLifecycle().addObserver(new LifecycleEventObserver() {
             @Override
             public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
@@ -60,9 +61,11 @@ public class PageListPlayDetector {
     Runnable delayAutoPlay = () -> {
         autoPlay();
     };
+
     RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//            停止滚动后 ,自动播放
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                 autoPlay();
             }
@@ -100,6 +103,7 @@ public class PageListPlayDetector {
         IPlayTarget activeTarget = null;   //正在播放的播放器
         for (IPlayTarget target : mTargets) {
             //            遍历所有的target,如果有视图位置在recyclerview的中间部分,将其设置为播放状态
+//            找到一个 会直接break 也就意味着 自动播放的视图为列表最上方显示一半的item
             boolean inBounds = isTargetInBounds(target);
             if (inBounds) {
                 activeTarget = target;
@@ -107,9 +111,10 @@ public class PageListPlayDetector {
             }
         }
         if (activeTarget != null) {
-            if (playingTarget != null) {
+            if (playingTarget != null) {   //如果有正在播放的 停掉它
                 playingTarget.inActive();
             }
+//            开始播放当前的
             playingTarget = activeTarget;
             playingTarget.onActive();
         }

@@ -143,6 +143,20 @@ public class SofaFragment extends Fragment {
         return AppConfig.getSofaTabConfig();
     }
 
+
+//     ?悬疑
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        List<Fragment> fragments = getChildFragmentManager().getFragments();
+        for (Fragment fragment : fragments) {
+            if (fragment.isAdded() && fragment.isVisible()){
+                fragment.onHiddenChanged(hidden);
+                break;
+            }
+        }
+    }
+
     @Override
     public void onDestroy() {
         mediator.detach();

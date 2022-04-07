@@ -40,7 +40,7 @@ public abstract class AbsListFragment<T, M extends AbsViewModel<T>> extends Frag
 
     //    不同的子类通过继承AbsListFragment后将子类的viewModel类型通过泛型第二个参数传递 这样在父类中就可以解析使用了
     protected M mViewModel;
-    private PageListPlayDetector detector;
+    public PageListPlayDetector detector;
 
  /*   @Override
     protected void initViewModel() {
@@ -109,6 +109,7 @@ public abstract class AbsListFragment<T, M extends AbsViewModel<T>> extends Frag
 //          在callback中有下拉与上拉边界回调监听，当没有数据或加载第一个数据时,更新getBoundaryPageData(boolean值)
 //           若有数据 追加到适配器上,若没有数据 关闭上下拉动画 并且显示空view界面
 
+        detector = new PageListPlayDetector(this,binding.recyclerView);
 //            通过监听boundaryPageData的数据变化控制空布局的显隐藏
         mViewModel.getBoundaryPageData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override

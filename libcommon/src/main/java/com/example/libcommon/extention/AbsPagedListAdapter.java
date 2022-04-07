@@ -131,6 +131,29 @@ public abstract class AbsPagedListAdapter<T, VH extends RecyclerView.ViewHolder>
         onBindViewHolder2(holder, position);
     }
 
+//    当视图显示到窗口上 且不是头item和footeritem时,执行自动播放逻辑
+    @Override
+    public void onViewAttachedToWindow(@NonNull VH holder) {
+        if (!isHeaderPosition(holder.getAdapterPosition()) && !isFooterPosition(holder.getAdapterPosition())) {
+            this.onViewAttachedToWindow2((VH) holder);
+        }
+    }
+
+    public void onViewAttachedToWindow2(VH holder) {
+
+    }
+//    当视图离开窗口 且不是头item和footeritem时,暂停服务
+    @Override
+    public void onViewDetachedFromWindow(@NonNull VH holder) {
+        if (!isHeaderPosition(holder.getAdapterPosition()) && !isFooterPosition(holder.getAdapterPosition())) {
+            this.onViewDetachedFromWindow2((VH) holder);
+        }
+    }
+
+    public void onViewDetachedFromWindow2(VH holder) {
+
+    }
+
     protected abstract void onBindViewHolder2(VH holder, int position);
 
     //    在使用pageList时内部只存储普通view的数据,并没有header和footer,所以会导致position不对应,
