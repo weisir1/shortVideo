@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.OverScroller;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -16,6 +17,7 @@ public class ViewAnchorBehavior extends CoordinatorLayout.Behavior<View> {
 
     private int anchorId;
     private int extraUsed;
+    private OverScroller overScroller;
 
     public ViewAnchorBehavior() {
     }
@@ -25,6 +27,7 @@ public class ViewAnchorBehavior extends CoordinatorLayout.Behavior<View> {
         anchorId = typedArray.getResourceId(R.styleable.view_anchor_behavior_anchorId, 0);
         typedArray.recycle();
         extraUsed = PixUtils.dp2px(48);
+        overScroller = new OverScroller(context);
     }
 
     public ViewAnchorBehavior(int anchorId) {
@@ -58,6 +61,7 @@ public class ViewAnchorBehavior extends CoordinatorLayout.Behavior<View> {
         if (anchorView == null) {
             return false;
         }
+
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
 //       分析:  加上当前view(也占空间),heightUsed其实就是当前view的getBottom位置 同时加上自己的marginTop
         int topMargin = layoutParams.topMargin;
@@ -68,7 +72,6 @@ public class ViewAnchorBehavior extends CoordinatorLayout.Behavior<View> {
         heightUsed = bottom + topMargin + extraUsed;
 //        因为只考虑垂直布局的位置,所以水平使用设为0 代表宽度使用为0
         parent.onMeasureChild(child, parentWidthMeasureSpec, 0, parentHeightMeasureSpec, heightUsed);
-
         return true;
     }
 

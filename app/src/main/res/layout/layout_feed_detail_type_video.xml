@@ -24,30 +24,32 @@
 
         <com.example.shortvideo.view.FullScreenPlayerView
             android:id="@+id/player_view"
-            app:layout_behavior=".ui.detail.ViewZoomBehavior"
             android:layout_width="match_parent"
-            android:minHeight="200dp"
-            app:scrolling_id="@+id/recycler_view"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:minHeight="200dp"
+            app:layout_behavior=".ui.detail.ViewZoomBehavior"
+            app:scrolling_id="@+id/recycler_view" />
 
         <include
             android:id="@+id/video_author_info"
             layout="@layout/layout_feed_detail_author_info"
+            app:anchorId="@+id/player_view"
             app:feed="@{feed}"
             app:fullscreen="@{false}"
+            app:layout_behavior=".ui.detail.ViewAnchorBehavior"
             app:leftMargin="@{PixUtils.dp2px(16)}" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/video_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
             android:overScrollMode="never"
-            app:anchorId="@+id/author_info"
+            app:anchorId="@+id/video_author_info"
             app:layout_behavior=".ui.detail.ViewAnchorBehavior" />
 
         <include
-            android:id="@+id/video_bottom_interaction"
+            android:id="@+id/video_bottom_interaction_video"
             layout="@layout/layout_feed_detail_bottom_interaction"
             app:feed="@{feed}"
             app:fullscreen="@{fullscreens}" />

@@ -19,6 +19,7 @@
     <ImageView
         android:id="@+id/paly_btn"
         android:layout_width="@dimen/dp_40"
+        android:layout_gravity="center"
         android:layout_height="@dimen/dp_40"
         android:src="@drawable/icon_video_play" />
     <!--视频播放进度条-->

@@ -97,6 +97,7 @@ public class FeedAdapter extends AbsPagedListAdapter<Feed, FeedAdapter.ViewHolde
 
     private FeedObserver feedObserver;
 
+//    详情页数据更新后 回调到此处 进行首页的界面更新
     private class FeedObserver implements Observer<Feed> {
 
         private Feed feed;

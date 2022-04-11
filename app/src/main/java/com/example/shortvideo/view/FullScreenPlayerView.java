@@ -36,6 +36,8 @@ public class FullScreenPlayerView extends ListPlayerView {
     protected void setSize(int widthPx, int heightPx) {
         if (widthPx > heightPx) {
             super.setSize(widthPx, heightPx);
+// !!!!!!!!!!!!!!!!!!! 宽大于高 记得return
+            return;
         }
 //        playerView布局大小
         int maxWidth = PixUtils.getScreenWidth();
@@ -45,19 +47,18 @@ public class FullScreenPlayerView extends ListPlayerView {
         params.height = maxHeight;
         setLayoutParams(params);
 
-//        封面图大小 (height>width 全屏)
-        FrameLayout.LayoutParams coverLayoutParams = (LayoutParams) cover.getLayoutParams();
-        coverLayoutParams.width = (int) (widthPx * (maxHeight * 1.0f / heightPx));
+/*        FrameLayout.LayoutParams coverLayoutParams = (LayoutParams) cover.getLayoutParams();
+        coverLayoutParams.width = (int) (widthPx / (heightPx * 1.0f / maxHeight));
         coverLayoutParams.height = maxHeight;
         coverLayoutParams.gravity = Gravity.CENTER;
-        cover.setLayoutParams(coverLayoutParams);
+        cover.setLayoutParams(coverLayoutParams);*/
     }
 
     //    外界设置参数时,视频内容要跟着变化
     @Override
     public void setLayoutParams(ViewGroup.LayoutParams params) {
 //        设置封面图的等比缩放
-        if (heightPx < widthPx) {//必须为全屏
+        if (heightPx > widthPx) {//必须为全屏
             int layoutWidth = params.width;
             int layoutHeight = params.height;
             ViewGroup.LayoutParams coverLayoutParams = cover.getLayoutParams();

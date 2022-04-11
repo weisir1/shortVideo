@@ -58,15 +58,10 @@ public class InteractionPresenter {
                              @Override
                              public void onSuccess(ApiResponse<com.alibaba.fastjson.JSONObject> response) {
                                  if (response.body != null) {
-                                     try {
                                          boolean hasLiked = response.body.getBooleanValue("hasLiked");
                                          feed.getUgc().setHasLiked(hasLiked);
                                          LiveDataBus.get().with(DATA_FROM_INTERACTION)
                                                  .postValue(feed);
-
-                                     } catch (Exception e) {
-                                         e.printStackTrace();
-                                     }
                                  }
                              }
 

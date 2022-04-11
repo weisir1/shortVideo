@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/author_info">
 
     <data>
+
         <variable
             name="feed"
             type="com.example.shortvideo.model.Feed" />
@@ -27,6 +29,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
         android:background="@color/transparent"
         android:paddingLeft="@{leftMargin}"
@@ -87,8 +90,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@{fullscreen? @color/color_white: @color/transparent}"
-            app:strokeWidth="@dimen/dp_1"
+            app:strokeColor="@color/transparent"
             tools:strokeColor="@color/color_white"
             tools:text="已关注" />
     </androidx.constraintlayout.widget.ConstraintLayout>

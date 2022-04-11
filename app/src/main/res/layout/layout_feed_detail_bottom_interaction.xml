@@ -26,6 +26,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_gravity="bottom"
         android:background="@{fullscreen?@color/transparent:@color/color_white}"
         android:orientation="vertical">
 
@@ -120,8 +121,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
+                    android:backgroundTint="@{fullscreen? @color/color_white: @color/color_666}"
                     android:background="@drawable/icon_cell_share"
-                    android:backgroundTint="@{feed.ugc.hasLiked?@color/color_theme:fullscreen?@color/color_white:@color/color_666}"
                     tools:src="@drawable/icon_cell_share" />
 
                 <TextView

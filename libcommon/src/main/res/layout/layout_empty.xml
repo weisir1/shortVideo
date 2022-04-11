@@ -22,6 +22,7 @@
         android:gravity="center"
         android:textColor="#999999"
         android:textSize="16sp"
+
         tools:text="这里展示空数据提示文案" />
 
     <com.google.android.material.button.MaterialButton
@@ -30,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:backgroundTint="#ff678f"
+        android:visibility="gone"
         android:paddingHorizontal="10dp"
         android:paddingVertical="5dp"
         android:text="朕知道了"

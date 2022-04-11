@@ -39,9 +39,9 @@ public class ViewZoomBehavior extends CoordinatorLayout.Behavior<FullScreenPlaye
 
         overScroller = new OverScroller(context);
     }
-
-    //   获取scrollingView
 //    全局保存childview
+
+//   获取scrollingView
 //    计算出该view的底部位置,即他的高度 ,方便后面使用其最终高度来做限制
 //    同时判断当前否是需要全屏显示
     @Override

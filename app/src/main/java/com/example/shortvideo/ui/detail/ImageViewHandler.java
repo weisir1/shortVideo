@@ -16,6 +16,8 @@ import com.example.shortvideo.databinding.LayoutFeedDetailTypeImageHeaderBinding
 import com.example.shortvideo.model.Feed;
 import com.example.shortvideo.view.SVImageView;
 
+import java.util.Objects;
+
 public class ImageViewHandler extends ViewHandler {
 
     protected ActivityFeedDetailTypeImageBinding binding;

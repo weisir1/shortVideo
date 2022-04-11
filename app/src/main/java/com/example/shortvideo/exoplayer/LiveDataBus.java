@@ -103,6 +103,7 @@ public class LiveDataBus {
 
             @Override
             public void onChanged(T t) {
+//               粘性事件 可以理解为先发送消息 后注册 先发送的消息
                 if (lastVersion >= liveData.version) {
 //                    如果是粘性事件 ,livedata会在下一次有观察者注册时,回调其change(),livedata天生是一个粘性事件
                     if (sticky && liveData.stickyData != null) {

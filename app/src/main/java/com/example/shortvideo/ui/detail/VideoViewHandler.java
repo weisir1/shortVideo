@@ -1,5 +1,6 @@
 package com.example.shortvideo.ui.detail;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,6 @@ import com.example.shortvideo.view.FullScreenPlayerView;
 public class VideoViewHandler extends ViewHandler {
 
     private LayoutFeedDetailTypeVideoBinding videoBinding;
-    private RecyclerView recyclerView;
     private String category;
     private boolean backPressed;
     private final CoordinatorLayout coordinator;
@@ -28,24 +28,23 @@ public class VideoViewHandler extends ViewHandler {
     public VideoViewHandler(FragmentActivity activity) {
         super(activity);
         videoBinding = DataBindingUtil.setContentView(activity, R.layout.layout_feed_detail_type_video);
-        interactionBinding = videoBinding.videoBottomInteraction;
-        recyclerView = videoBinding.recyclerView;
+        interactionBinding = videoBinding.videoBottomInteractionVideo;
+        recyclerView = videoBinding.videoRecyclerView;
         playerView = videoBinding.playerView;
         coordinator = videoBinding.coordinator;
-
         View authorInfoView = videoBinding.videoAuthorInfo.getRoot();
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) authorInfoView.getLayoutParams();
         layoutParams.setBehavior(new ViewAnchorBehavior(R.id.player_view));
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) playerView.getLayoutParams();
         ViewZoomBehavior behavior = (ViewZoomBehavior) params.getBehavior();
-        layoutParams.setBehavior(behavior);
+        params.setBehavior(behavior);
         behavior.setViewZoomCallback(height -> {
             int bottom = playerView.getBottom();
             boolean moveUp = height < bottom;
 //            上滑过程中,认为上滑距离超过底部导航高度 时为非全屏显示, 否则 即使上滑 仍为全屏显示
-            boolean fullscreen = moveUp ? height >= coordinator.getBottom() - interactionBinding.getRoot().getHeight():
-                    height>=coordinator.getBottom();
+            boolean fullscreen = moveUp ? height >= coordinator.getBottom() - interactionBinding.getRoot().getHeight() :
+                    height >= coordinator.getBottom();
             setViewApprearance(fullscreen);
         });
     }
@@ -67,6 +66,7 @@ public class VideoViewHandler extends ViewHandler {
     }
 
     private void setViewApprearance(boolean fullscreen) {
+        videoBinding.setFullscreens(fullscreen);
         videoBinding.videoFullscreenAuthorInfo.getRoot().setVisibility(fullscreen ? View.VISIBLE : View.GONE);
 
 //            全屏情况下 控制条的位置需要上挪 否则会被bottominteraction覆盖
@@ -74,7 +74,9 @@ public class VideoViewHandler extends ViewHandler {
         int ctrViewHeight = videoBinding.playerView.getPlayController().getMeasuredHeight();
 
         int bottom = videoBinding.playerView.getPlayController().getBottom();
+
         videoBinding.playerView.getPlayController().setY(fullscreen ? bottom - inputHeight - ctrViewHeight : bottom - ctrViewHeight);
+        interactionBinding.inputView.setBackgroundResource(fullscreen?R.drawable.bg_edit_view2:R.drawable.bg_edit_view);
     }
 
     @Override

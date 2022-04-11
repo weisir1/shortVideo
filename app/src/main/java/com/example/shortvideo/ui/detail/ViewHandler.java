@@ -27,6 +27,8 @@ import com.example.shortvideo.model.User;
 import com.example.shortvideo.ui.MutableItemKeyedDataSource;
 import com.example.shortvideo.ui.login.UserManager;
 
+import org.jetbrains.annotations.NotNull;
+
 public abstract class ViewHandler {
     protected FragmentActivity activity;
     protected Feed feed;
@@ -42,7 +44,7 @@ public abstract class ViewHandler {
     }
 
     @CallSuper   //注解表示如果子类要重写此方法,必须要要调用super.xxx这个方法 否则变异不通过
-    public void bindInitData(Feed feed) {
+    public void  bindInitData(@NotNull Feed feed) {
         interactionBinding.setOwner(activity);
         this.feed = feed;
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
