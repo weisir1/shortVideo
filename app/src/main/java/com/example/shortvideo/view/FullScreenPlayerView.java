@@ -85,13 +85,16 @@ public class FullScreenPlayerView extends ListPlayerView {
 
     @Override
     public void onActive() {
+//        category是由上个activity传递的参数, 所以在PageListPlayManager中已经存在实例 也就代表着保存了上个界面的playerView的实例对象playerView
         PageListPlay pageListPlay = PageListPlayManager.get(category);
+//        这个为当前新页面创建的playerView onActive中将接替旧界面的playerView工作  在inActive中又将工作还给旧PlayerView
         PlayerView playerView = exoPlayerView; //pageListPlay.playerView;  替换为详情页的
         PlayerControlView controlView = pageListPlay.controlView;
         SimpleExoPlayer exoPlayer = pageListPlay.exoPlayer;
         if (playerView == null) {
             return;
         }
+
 //       重新将exoPlayer绑定到此处创建的playerView上
         pageListPlay.switchPlayerView(playerView, true);
 //        更新到当前页面对应playerVIew

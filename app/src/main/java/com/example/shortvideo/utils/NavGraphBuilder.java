@@ -27,7 +27,6 @@ public class NavGraphBuilder {
        //添加到provider中,这样除了navigation框架内置的四个导航器外,自己内置了一个导航器
         provider.addNavigator(fragmentNavigator);
 
-
         ActivityNavigator activityNavigator = provider.getNavigator(ActivityNavigator.class);
         //navGraph是类似资源文件的fragment集
         NavGraph navGraph = new NavGraph(new NavGraphNavigator(provider));

@@ -42,6 +42,9 @@ dependencies {
     //paging分页组件
     api 'androidx.paging:paging-runtime:2.1.0'
 
+
+    //workmanager
+    api 'androidx.work:work-runtime:2.2.0'
     //注解使用生命周期编译器
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.1.0"
 

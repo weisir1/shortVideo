@@ -26,7 +26,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 public class SVImageView extends AppCompatImageView {
     public SVImageView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        ViewHelper.setViewOutLine(this,attrs,defStyleAttr,0);
+        ViewHelper.setViewOutLine(this, attrs, defStyleAttr, 0);
     }
 
     public SVImageView(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -52,6 +52,10 @@ public class SVImageView extends AppCompatImageView {
 
     public void bingData(int widthPx, int heightPx, int marginLeft, String imgUrl) {
         bingData(widthPx, heightPx, marginLeft, PixUtils.getScreenWidth(), PixUtils.getScreenHeight(), imgUrl);
+    }
+
+    public void setImageUrl(String imageUrl) {
+        setImageUrl(this, imageUrl, false);
     }
 
     public void bingData(int widthPx, int heightPx, int marginLeft, int maxWidth, int maxHeight, String imgUrl) {

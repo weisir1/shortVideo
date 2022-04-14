@@ -98,7 +98,6 @@ public class VideoViewHandler extends ViewHandler {
     public void onBackPressed() {
         super.onBackPressed();
         backPressed = true;  //用于表示是否通过点击返回键触发了onPause()方法
-
         //按了返回键后需要 恢复 播放控制器的位置。否则回到列表页时 可能会不正确的显示
         videoBinding.playerView.getPlayController().setTranslationY(0);
     }

@@ -79,7 +79,6 @@ public class ListPlayerView extends FrameLayout implements IPlayTarget, Player.E
 
     @Override
     public void onActive() {
-//        关于category的由来,是个疑问,在HomeFragment的getAdapter中 到底在哪里创建这个参数呢
 //        通过每个fragment的标识,(比如首页列表tab_all,沙发tab的tab_video,标签帖子聚合的tag_feed) 字段，
         PageListPlay pageListPlay = PageListPlayManager.get(category);
         PlayerView playerView = pageListPlay.playerView;
@@ -151,7 +150,7 @@ public class ListPlayerView extends FrameLayout implements IPlayTarget, Player.E
     public void inActive() {
 //        暂停视频播放,显示按钮和控制条
         PageListPlay pageListPlay = PageListPlayManager.get(category);
-        if (pageListPlay.exoPlayer == null || pageListPlay.controlView == null || pageListPlay.exoPlayer == null) {
+        if (pageListPlay.exoPlayer == null || pageListPlay.controlView == null) {
             return;
         }
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.paging.ItemKeyedDataSource;
 import androidx.paging.PagedList;
@@ -64,6 +65,17 @@ public class HomeFragment extends AbsListFragment<Feed, HomeViewModel> {
 //                实现详情页无缝续播, 需要在getAdapter点击item事件发生以后 回调此方法 ,判断点击item为视频 不允许暂停
                 boolean isVideo = item.itemType == Feed.TYPE_VIDEO;
                 shouldPause = !isVideo;
+            }
+
+            @Override
+            public void onCurrentListChanged(@Nullable PagedList<Feed> previousList, @Nullable PagedList<Feed> currentList) {
+//                这个方法是在我们每提交一次 pageList对象到adapter就会出发一次
+//                每调用一次 adapter.submitlist
+                if (previousList != null && currentList != null) {
+                    if (!currentList.containsAll(previousList)) {
+                        recyclerView.scrollToPosition(0);
+                    }
+                }
             }
         };
     }

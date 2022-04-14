@@ -33,7 +33,7 @@ import java.lang.reflect.Type;
 public abstract class AbsListFragment<T, M extends AbsViewModel<T>> extends Fragment implements OnRefreshListener, OnLoadMoreListener {
 
     private LayoutRefreshViewBinding binding;
-    private RecyclerView recyclerView;
+    public RecyclerView recyclerView;
     private SmartRefreshLayout smartRefreshLayout;
     private EmptyView emptyView;
     public PagedListAdapter<T, RecyclerView.ViewHolder> adapter;

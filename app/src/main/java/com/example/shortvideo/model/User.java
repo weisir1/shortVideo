@@ -7,6 +7,8 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 import androidx.databinding.library.baseAdapters.BR;
 
+import org.w3c.dom.Text;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -66,6 +68,9 @@ public class User extends BaseObservable implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id == user.id &&
+                TextUtils.equals(name, user.name) &&
+                TextUtils.equals(avatar, user.avatar) &&
+                TextUtils.equals(description, user.description) &&
                 userId == user.userId &&
                 likeCount == user.likeCount &&
                 topCommentCount == user.topCommentCount &&
@@ -78,10 +83,8 @@ public class User extends BaseObservable implements Serializable {
                 favoriteCount == user.favoriteCount &&
                 feedCount == user.feedCount &&
                 hasFollow == user.hasFollow &&
-                name.equals(user.name) &&
-                avatar.equals(user.avatar) &&
-                description.equals(user.description) &&
-                qqOpenId.equals(user.qqOpenId);
+                TextUtils.equals(qqOpenId, user.qqOpenId);
+
     }
 
 }

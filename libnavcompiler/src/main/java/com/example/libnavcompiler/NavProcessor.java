@@ -124,7 +124,7 @@ public class NavProcessor extends AbstractProcessor {
                 pageUrl = destFragment.pageUrl();
                 asStarter = destFragment.asStarter();
                 needLogin = destFragment.needLogin();
-                isFragment = true;
+                isFragment = false;
             }
             if (destMap.containsKey(pageUrl)){  //如果map中包含重复pageUrl,提示并且不添加
                 messager.printMessage(Diagnostic.Kind.ERROR,"不同的页面不允许使用相同的pageUrl:"+ClazName);
