@@ -31,11 +31,10 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 public abstract class AbsListFragment<T, M extends AbsViewModel<T>> extends Fragment implements OnRefreshListener, OnLoadMoreListener {
-
     private LayoutRefreshViewBinding binding;
     public RecyclerView recyclerView;
     private SmartRefreshLayout smartRefreshLayout;
-    private EmptyView emptyView;
+    public EmptyView emptyView;
     public PagedListAdapter<T, RecyclerView.ViewHolder> adapter;
 
     //    不同的子类通过继承AbsListFragment后将子类的viewModel类型通过泛型第二个参数传递 这样在父类中就可以解析使用了
@@ -60,7 +59,7 @@ public abstract class AbsListFragment<T, M extends AbsViewModel<T>> extends Frag
         smartRefreshLayout = binding.refreshLayout;
         emptyView = binding.emptyView;
 
-        adapter = getAdapter();
+        adapter =  getAdapter();
         recyclerView.setAdapter(adapter);
 
         smartRefreshLayout.setEnableRefresh(true);

@@ -21,6 +21,7 @@ import com.example.libnetwork.JsonCallback;
 import com.example.shortvideo.exoplayer.LiveDataBus;
 import com.example.shortvideo.model.Comment;
 import com.example.shortvideo.model.Feed;
+import com.example.shortvideo.model.TagList;
 import com.example.shortvideo.model.User;
 import com.example.shortvideo.ui.ShareDialog;
 import com.example.shortvideo.ui.login.UserManager;
@@ -58,10 +59,10 @@ public class InteractionPresenter {
                              @Override
                              public void onSuccess(ApiResponse<com.alibaba.fastjson.JSONObject> response) {
                                  if (response.body != null) {
-                                         boolean hasLiked = response.body.getBooleanValue("hasLiked");
-                                         feed.getUgc().setHasLiked(hasLiked);
-                                         LiveDataBus.get().with(DATA_FROM_INTERACTION)
-                                                 .postValue(feed);
+                                     boolean hasLiked = response.body.getBooleanValue("hasLiked");
+                                     feed.getUgc().setHasLiked(hasLiked);
+                                     LiveDataBus.get().with(DATA_FROM_INTERACTION)
+                                             .postValue(feed);
                                  }
                              }
 
@@ -109,6 +110,38 @@ public class InteractionPresenter {
                         }
                     }
                 });
+    }
+
+    public static void toggleTagLike(LifecycleOwner owner, TagList tagList) {
+        if (!UserManager.get().isLogin()) {
+            UserManager.get().login(AppGlobals.getsApplication()).observe(owner, user -> {
+                if (user != null) {
+                    toggleTagLikeInternal(tagList);
+                }
+            });
+        } else {
+            toggleTagLikeInternal(tagList);
+        }
+    }
+
+    private static void toggleTagLikeInternal(TagList tagList) {
+ApiService.get("/tag/toggleTagFollow")
+        .addParam("tagId",tagList.tagId)
+        .addParam("userId",UserManager.get().getUserId())
+        .execute(new JsonCallback<JSONObject>() {
+            @Override
+            public void onSuccess(ApiResponse<JSONObject> response) {
+                if (response.body!=null){
+                    boolean hasFollow = response.body.getBooleanValue("hasFollow");
+                    tagList.setHasFollow(hasFollow);
+                }
+            }
+
+            @Override
+            public void onError(ApiResponse<JSONObject> response) {
+                showToast(response.message);
+            }
+        });
     }
 
     //   分享面板

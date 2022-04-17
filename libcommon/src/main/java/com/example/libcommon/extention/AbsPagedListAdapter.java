@@ -4,6 +4,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,16 @@ public abstract class AbsPagedListAdapter<T, VH extends RecyclerView.ViewHolder>
     private SparseArray<View> footer = new SparseArray<>();
     private int BASE_ITEM_TYPE_HEADER = 10000;
     private int BASE_ITEM_TYPE_FOOTER = 20000;
+    private OnItemClick<T> onItemClick;
+    private OnItemLongClickListener<T> onItemLongClickListener;
+
+    public void setOnItemClickListener(OnItemClick<T> onItemClick) {
+        this.onItemClick = onItemClick;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener<T> onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
+    }
 
     protected AbsPagedListAdapter(@NonNull DiffUtil.ItemCallback<T> diffCallback) {
         super(diffCallback);
@@ -116,7 +127,22 @@ public abstract class AbsPagedListAdapter<T, VH extends RecyclerView.ViewHolder>
             return (VH) new RecyclerView.ViewHolder(view) {
             };
         }
-        return onCreateViewHolder2(parent, viewType);
+        VH vh = onCreateViewHolder2(parent, viewType);
+        vh.itemView.setOnClickListener(v -> {
+            if (onItemClick != null) {
+                int position = vh.getAdapterPosition();
+                onItemClick.onItemClick(getItem(position), position);
+            }
+        });
+        vh.itemView.setOnLongClickListener(v -> {
+            if (onItemLongClickListener != null) {
+                int position = vh.getAdapterPosition();
+                onItemLongClickListener.onItemLongClick(getItem(position), position);
+                return true;
+            }
+            return false;
+        });
+        return vh;
     }
 
     protected abstract VH onCreateViewHolder2(ViewGroup parent, int viewType);
@@ -131,7 +157,7 @@ public abstract class AbsPagedListAdapter<T, VH extends RecyclerView.ViewHolder>
         onBindViewHolder2(holder, position);
     }
 
-//    当视图显示到窗口上 且不是头item和footeritem时,执行自动播放逻辑
+    //    当视图显示到窗口上 且不是头item和footeritem时,执行自动播放逻辑
     @Override
     public void onViewAttachedToWindow(@NonNull VH holder) {
         if (!isHeaderPosition(holder.getAdapterPosition()) && !isFooterPosition(holder.getAdapterPosition())) {
@@ -142,7 +168,8 @@ public abstract class AbsPagedListAdapter<T, VH extends RecyclerView.ViewHolder>
     public void onViewAttachedToWindow2(VH holder) {
 
     }
-//    当视图离开窗口 且不是头item和footeritem时,暂停服务
+
+    //    当视图离开窗口 且不是头item和footeritem时,暂停服务
     @Override
     public void onViewDetachedFromWindow(@NonNull VH holder) {
         if (!isHeaderPosition(holder.getAdapterPosition()) && !isFooterPosition(holder.getAdapterPosition())) {
@@ -201,5 +228,13 @@ public abstract class AbsPagedListAdapter<T, VH extends RecyclerView.ViewHolder>
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
             observer.onItemRangeMoved(fromPosition + header.size(), toPosition + header.size(), itemCount);
         }
+    }
+
+    public interface OnItemLongClickListener<M> {
+        void onItemLongClick(M item, int position);
+    }
+
+    public interface OnItemClick<M> {
+        void onItemClick(M item, int position);
     }
 }

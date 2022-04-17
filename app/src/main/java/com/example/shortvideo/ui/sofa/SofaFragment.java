@@ -39,11 +39,9 @@ import java.util.Map;
 
 @FragmentDestination(pageUrl = "main/tabs/sofa", asStarter = false)
 public class SofaFragment extends Fragment {
-
-
     private SofaFragmentBinding binding;
     private TabLayout tabLayout;
-    private ViewPager2 viewPager;
+    protected ViewPager2 viewPager;
     private SofaTab tabConfig;
     private List<SofaTab.Tabs> tabs;
     private Map<Integer, Fragment> fragmentMap = new HashMap<>();
@@ -61,6 +59,9 @@ public class SofaFragment extends Fragment {
 
         tabLayout = binding.tabLayout;
         viewPager = binding.viewPager;
+//        根据getTabConfig()加载assets中的json文件tab显示到tablayout上
+
+//        在findFragment中也是通过此方法 但是调用的为findFragment复写的
         tabConfig = getTabConfig();
         tabs = new ArrayList<>();
         for (SofaTab.Tabs tab :    //只将可点击的ta加入列表
@@ -135,11 +136,11 @@ public class SofaFragment extends Fragment {
         return tabView;
     }
 
-    private Fragment getTabFragment(int position) {
+    protected Fragment getTabFragment(int position) {
         return HomeFragment.newInstance(tabs.get(position).getTag());
     }
 
-    private SofaTab getTabConfig() {
+    protected  SofaTab getTabConfig() {
         return AppConfig.getSofaTabConfig();
     }
 

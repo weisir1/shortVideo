@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class AppConfig {
     private static HashMap<String, Destination> sDestConfig;
     private static BottomBar sBottomBar;
-    private static SofaTab tab;
+    private static SofaTab tab,findTagConfig;
 
     /**
      * @return 获取存储在assets目录中的json资源 并加载到hashmap中返回
@@ -33,6 +33,20 @@ public class AppConfig {
 
         }
         return sDestConfig;
+    }
+
+    public static SofaTab getFindTagConfig(){
+        if (findTagConfig == null){
+            String content = parseFile("find_tabs_config.json");
+            findTagConfig = JSON.parseObject(content, SofaTab.class);
+            Collections.sort(findTagConfig.getTabs(), new Comparator<SofaTab.Tabs>() {
+                @Override
+                public int compare(SofaTab.Tabs o1, SofaTab.Tabs o2) {
+                    return o1.getIndex() < o2.getIndex() ? -1 : 1;
+                }
+            });
+        }
+        return findTagConfig;
     }
 
     public static BottomBar getsBottomBar() {

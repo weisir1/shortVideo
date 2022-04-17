@@ -60,8 +60,6 @@ public class PageListPlay {
 
     public void switchPlayerView(PlayerView newPlayerView, boolean attach) {
 //        断开当前playerview 将传入的新playerview绑定exoPlayer 用于详情页无缝连接
-        Log.i("WeiSir", "PlayerView: " + playerView);
-        Log.i("WeiSir", "newPlayerView: " + newPlayerView);
         playerView.setPlayer(attach ? null : exoPlayer);
         newPlayerView.setPlayer(attach ? exoPlayer : null);
     }

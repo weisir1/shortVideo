@@ -22,6 +22,7 @@ import com.example.libcommon.util.PixUtils;
 import com.example.libcommon.view.ViewHelper;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class SVImageView extends AppCompatImageView {
     public SVImageView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -34,14 +35,21 @@ public class SVImageView extends AppCompatImageView {
 
     }
 
-    //第二个参数: 只有在布局文件中将value两个参数都写上才会显示   false 表示只要有一个参数就行
-    @BindingAdapter(value = {"image_url", "isCircle"}, requireAll = true)
+    @BindingAdapter(value = {"image_url", "isCircle"})
     public static void setImageUrl(SVImageView view, String imageUrl, boolean isCircle) {
+        view.setImageUrl(view, imageUrl, isCircle, 0);
+    }
+
+    //第二个参数: 只有在布局文件中将value两个参数都写上才会显示   false 表示只要有一个参数就行
+    @BindingAdapter(value = {"image_url", "isCircle", "radius"}, requireAll = true)
+    public static void setImageUrl(SVImageView view, String imageUrl, boolean isCircle, int radius) {
         RequestBuilder<Drawable> builder = Glide.with(view).load(imageUrl);
 
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         if (isCircle) {
             builder.transform(new CircleCrop());
+        } else if (radius > 0) {
+            builder.transform(new RoundedCornersTransformation(PixUtils.dp2px(radius), 0));
         }
         if (layoutParams != null && layoutParams.width > 0 && layoutParams.height > 0) {
             //防止图片尺寸很大 而需要的尺寸很小造成的资源浪费 ?
@@ -97,14 +105,15 @@ public class SVImageView extends AppCompatImageView {
         setLayoutParams(params);
     }
 
-    public void setBlurImageUrl(String coverUrl, int radius) {
-        Glide.with(this).load(coverUrl).override(50)
+    @BindingAdapter(value = {"blur_url", "radius"})
+    public static void setBlurImageUrl(SVImageView view,String coverUrl, int radius) {
+        Glide.with(view).load(coverUrl).override(radius)
                 .transform(new BlurTransformation())
                 .dontAnimate()
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        setBackground(resource);
+                        view.setBackground(resource);
                     }
                 });
     }

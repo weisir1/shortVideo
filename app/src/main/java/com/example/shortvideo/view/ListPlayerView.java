@@ -53,7 +53,6 @@ public class ListPlayerView extends FrameLayout implements IPlayTarget, Player.E
     }
 
 
-
     public void bindData(String category, int widthPx, int heightPx, String coverUrl, String videoUrl) {
         this.category = category;
         this.videoUrl = videoUrl;
@@ -64,7 +63,7 @@ public class ListPlayerView extends FrameLayout implements IPlayTarget, Player.E
         cover.setImageUrl(cover, coverUrl, false);
         if (widthPx < heightPx) {
 //            全屏 则显示封面图和背景色(黑色)
-            cover.setBlurImageUrl(coverUrl, 10);
+            SVImageView.setBlurImageUrl(blur, coverUrl, 10);
             blur.setVisibility(VISIBLE);
         } else {
             blur.setVisibility(INVISIBLE);
@@ -130,6 +129,7 @@ public class ListPlayerView extends FrameLayout implements IPlayTarget, Player.E
         exoPlayer.addListener(this);
         exoPlayer.setPlayWhenReady(true);
     }
+
     //    播放状态发生变化
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
@@ -179,7 +179,6 @@ public class ListPlayerView extends FrameLayout implements IPlayTarget, Player.E
     }
 
     private boolean isPlaying;
-
 
 
     protected void setSize(int widthPx, int heightPx) {
@@ -234,7 +233,7 @@ public class ListPlayerView extends FrameLayout implements IPlayTarget, Player.E
         playBtn.setImageResource(isPlaying ? R.drawable.icon_video_pause : R.drawable.icon_video_play);
     }
 
-    public View getPlayController(){
+    public View getPlayController() {
         PageListPlay listPlay = PageListPlayManager.get(category);
         return listPlay.controlView;
     }
