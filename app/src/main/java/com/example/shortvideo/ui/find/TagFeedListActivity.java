@@ -119,6 +119,7 @@ public class TagFeedListActivity extends AppCompatActivity implements View.OnCli
         LayoutTagFeedListHeaderBinding headerBinding = LayoutTagFeedListHeaderBinding.inflate(LayoutInflater.from(this),
                 null, false);
         headerBinding.setTagList(tagList);
+        headerBinding.setOwner(this);
         adapter.addHeaderView(headerBinding.getRoot());
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -183,6 +184,7 @@ public class TagFeedListActivity extends AppCompatActivity implements View.OnCli
     protected void onResume() {
         super.onResume();
         if (shouldPause) {
+            shouldPause =true;
             detector.onResume();
         }
     }
@@ -196,12 +198,14 @@ public class TagFeedListActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-
+        finish();
     }
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-//全权委托给paging框架
+        //全权委托给paging框架
+        PagedList currentList = getAdapter().getCurrentList();
+        finishRefresh(currentList != null && currentList.size() > 0);
     }
 
     @Override

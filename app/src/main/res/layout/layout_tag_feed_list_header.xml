@@ -9,10 +9,15 @@
             name="tagList"
             type="com.example.shortvideo.model.TagList" />
 
+        <variable
+            name="owner"
+            type="androidx.lifecycle.LifecycleOwner" />
+
         <import type="android.view.View" />
 
         <import type="android.text.TextUtils" />
 
+        <import type="com.example.shortvideo.ui.home.InteractionPresenter"/>
         <import type="com.example.shortvideo.utils.StringConvert" />
     </data>
 
@@ -50,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16"
             android:layout_marginRight="@dimen/dp_16"
+            android:onClick="@{()->InteractionPresenter.toggleTagLike(owner,tagList)}"
             android:text="@{tagList.hasFollow?@string/tag_follow:@string/tag_unfollow}"
             android:textColor="@color/color_theme"
             android:textSize="13sp"
