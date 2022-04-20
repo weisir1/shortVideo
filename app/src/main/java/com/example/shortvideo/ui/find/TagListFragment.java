@@ -42,7 +42,6 @@ public class TagListFragment extends AbsListFragment<TagList, TagListViewModel> 
             });
         }
         mViewModel.setTagType(tagType);
-
     }
 
     @Override
@@ -82,7 +81,6 @@ public class TagListFragment extends AbsListFragment<TagList, TagListViewModel> 
                 }else{
                     finishRefresh(false);
                 }
-
             }
         });
     }

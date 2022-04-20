@@ -1,5 +1,6 @@
 package com.example.shortvideo.ui.my;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,23 +15,55 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.libnavannotation.FragmentDestination;
 import com.example.shortvideo.R;
-@FragmentDestination(pageUrl ="main/tabs/my",asStarter = false,needLogin = true)
+import com.example.shortvideo.databinding.FragmentDashboardBinding;
+import com.example.shortvideo.model.User;
+import com.example.shortvideo.ui.login.UserManager;
+import com.example.shortvideo.utils.StatusBar;
+
+@FragmentDestination(pageUrl = "main/tabs/my", asStarter = false, needLogin = true)
 public class MyFragment extends Fragment {
 
     private MyViewModel dashboardViewModel;
+    private FragmentDashboardBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(MyViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
+        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        User user = UserManager.get().getUser();
+        binding.setUser(user);
+//        更新用户登陆信息
+        UserManager.get().refresh().observe(getViewLifecycleOwner(),user1 -> {
+            binding.setUser(user1);
         });
-        return root;
+        binding.actionLayout.setOnClickListener(v -> {
+            new AlertDialog.Builder(getContext())
+                    .setMessage(getString(R.string.fragment_my_logout))
+                    .setPositiveButton(getString(R.string.fragment_my_logout_ok), (dialog, which) -> {
+                        dialog.dismiss();
+                        UserManager.get().logout();
+                        getActivity().onBackPressed();
+                    })
+                    .setNegativeButton(getString(R.string.fragment_my_logout_cancel), null).create().show();
+        });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        StatusBar.lightStatusBar(getActivity(),false);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+//        当myfragment变得可见时状态栏的颜色就会变为黑体白字 不可见时变为白体黑字
+        StatusBar.lightStatusBar(getActivity(),hidden);
     }
 }

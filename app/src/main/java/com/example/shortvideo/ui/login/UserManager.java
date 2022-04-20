@@ -1,11 +1,18 @@
 package com.example.shortvideo.ui.login;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
+import androidx.arch.core.executor.ArchTaskExecutor;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.libcommon.global.AppGlobals;
+import com.example.libnetwork.ApiResponse;
+import com.example.libnetwork.ApiService;
+import com.example.libnetwork.JsonCallback;
 import com.example.libnetwork.cache.CacheManager;
 import com.example.shortvideo.model.User;
 
@@ -28,6 +35,12 @@ public class UserManager {
         }
     }
 
+    public void logout() {
+        CacheManager.delete(KEY_CACHE_USER, user);
+        userLiveData.postValue(null);  //  ??? 少一行 死机了 监听者发生了什么
+        user = null;
+    }
+
     public void save(User user) {
         if (user != null) {
             this.user = user;
@@ -35,7 +48,7 @@ public class UserManager {
             if (userLiveData.hasObservers()) {
                 userLiveData.postValue(user);
             }
-        }else {
+        } else {
             if (userLiveData.hasObservers()) {
                 userLiveData.postValue(null);
             }
@@ -64,5 +77,34 @@ public class UserManager {
 
     public long getUserId() {
         return isLogin() ? user.userId : 0;
+    }
+
+    public LiveData<User> refresh() {
+        if (!isLogin()) {
+            return login(AppGlobals.getsApplication());
+        }
+        MutableLiveData<User> liveData = new MutableLiveData<>();
+
+        ApiService.get("/user/query")
+                .addParam("userId", getUserId())
+                .execute(new JsonCallback<User>() {
+                             @Override
+                             public void onSuccess(ApiResponse<User> response) {
+                                 save(response.body);
+                                 liveData.postValue(getUser());
+                             }
+
+                             @SuppressLint("RestrictedApi")
+                             @Override
+                             public void onError(ApiResponse<User> response) {
+                                 ArchTaskExecutor.getMainThreadExecutor().execute(() -> {
+                                     Toast.makeText(AppGlobals.getsApplication(), response.message, Toast.LENGTH_SHORT).show();
+                                 });
+                                 liveData.postValue(null);
+                             }
+                         }
+
+                );
+        return liveData;
     }
 }

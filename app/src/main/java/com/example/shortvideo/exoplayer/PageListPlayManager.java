@@ -59,7 +59,7 @@ public class PageListPlayManager {
         return pageListPlay;
     }
     public static void release(String pageName){
-        PageListPlay pageListPlay = pageListPlayHashMap.get(pageName);
+        PageListPlay pageListPlay = pageListPlayHashMap.remove(pageName);
         if (pageListPlay!=null){
             pageListPlay.release();
         }

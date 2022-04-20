@@ -30,7 +30,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public abstract class AbsListFragment<T, M extends AbsViewModel<T>> extends Fragment implements OnRefreshListener, OnLoadMoreListener {
+public abstract class   AbsListFragment<T, M extends AbsViewModel<T>> extends Fragment implements OnRefreshListener, OnLoadMoreListener {
     private LayoutRefreshViewBinding binding;
     public RecyclerView recyclerView;
     private SmartRefreshLayout smartRefreshLayout;
