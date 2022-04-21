@@ -125,23 +125,23 @@ public class InteractionPresenter {
     }
 
     private static void toggleTagLikeInternal(TagList tagList) {
-ApiService.get("/tag/toggleTagFollow")
-        .addParam("tagId",tagList.tagId)
-        .addParam("userId",UserManager.get().getUserId())
-        .execute(new JsonCallback<JSONObject>() {
-            @Override
-            public void onSuccess(ApiResponse<JSONObject> response) {
-                if (response.body!=null){
-                    boolean hasFollow = response.body.getBooleanValue("hasFollow");
-                    tagList.setHasFollow(hasFollow);
-                }
-            }
+        ApiService.get("/tag/toggleTagFollow")
+                .addParam("tagId", tagList.tagId)
+                .addParam("userId", UserManager.get().getUserId())
+                .execute(new JsonCallback<JSONObject>() {
+                    @Override
+                    public void onSuccess(ApiResponse<JSONObject> response) {
+                        if (response.body != null) {
+                            boolean hasFollow = response.body.getBooleanValue("hasFollow");
+                            tagList.setHasFollow(hasFollow);
+                        }
+                    }
 
-            @Override
-            public void onError(ApiResponse<JSONObject> response) {
-                showToast(response.message);
-            }
-        });
+                    @Override
+                    public void onError(ApiResponse<JSONObject> response) {
+                        showToast(response.message);
+                    }
+                });
     }
 
     //   分享面板
@@ -282,6 +282,39 @@ ApiService.get("/tag/toggleTagFollow")
                 });
     }
 
+    public static LiveData<Boolean> deleteFeed(Context context, long itemId) {
+        MutableLiveData<Boolean> liveData = new MutableLiveData<>();
+        new AlertDialog.Builder(context)
+                .setNegativeButton("删除", (dialog, which) -> {
+                    dialog.dismiss();
+                    deleteFeedInternal(liveData, itemId);
+                }).setPositiveButton("取消", (dialog, which) -> {
+            dialog.dismiss();
+
+        }).setMessage("确认要删除这条评论吗?").create().show();
+        return liveData;
+    }
+
+    private static void deleteFeedInternal(MutableLiveData<Boolean> liveData, long itemId) {
+        ApiService.get("/feeds/deleteFeed")
+                .addParam("itemId",itemId)
+                .execute(new JsonCallback<JSONObject>() {
+                    @Override
+                    public void onSuccess(ApiResponse<JSONObject> response) {
+                        if (response.body != null) {
+                            boolean result = response.body.getBooleanValue("result");
+                            liveData.postValue(result);
+                            showToast("删除成功");
+                        }
+                    }
+
+                    @Override
+                    public void onError(ApiResponse<JSONObject> response) {
+                        showToast(response.message);
+                    }
+                });
+    }
+
     //    删除事件
     public static LiveData<Boolean> deleteFeedComment(Context context, long itemId, long commentId) {
         MutableLiveData<Boolean> liveData = new MutableLiveData<>();
@@ -291,7 +324,6 @@ ApiService.get("/tag/toggleTagFollow")
                     deleteFeedComment(liveData, itemId, commentId);
                 }).setPositiveButton("取消", (dialog, which) -> {
             dialog.dismiss();
-
 
         }).setMessage("确认要删除这条评论吗?").create().show();
         return liveData;

@@ -60,6 +60,7 @@
             tools:text="10小时前" />
 
         <ImageView
+            android:id="@+id/feed_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/dp_10"

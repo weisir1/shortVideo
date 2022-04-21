@@ -55,6 +55,7 @@ public class CaptureActivity extends AppCompatActivity {
     private ArrayList<String> deniedPermission = new ArrayList<>();
     //    后置摄像头
     private CameraX.LensFacing lensFacing = CameraX.LensFacing.BACK;
+    private CameraX.LensFacing lensFacing = CameraX.LensFacing.FRONT;
     private int rotation = Surface.ROTATION_0;
     private Size resolution = new Size(1280, 720);
     private Rational rational = new Rational(9, 16);

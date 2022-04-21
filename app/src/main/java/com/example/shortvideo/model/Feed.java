@@ -31,7 +31,7 @@ public class Feed extends BaseObservable implements Serializable {
      * cover : https://p3-dy.byteimg.com/img/mosaic-legacy/2d676000e36289f35f70c~640x368_q80.webp
      */
 
-    public int id;
+    public long id;
     public long itemId;
     public int itemType;
     public long createTime;
