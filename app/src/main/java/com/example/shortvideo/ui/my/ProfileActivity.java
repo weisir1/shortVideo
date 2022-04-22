@@ -26,7 +26,6 @@ public class ProfileActivity extends AppCompatActivity {
     public static final String TAB_TYPE_ALL = "tab_all";
     public static final String TAB_TYPE_FEED = "tab_feed";
     public static final String TAB_TYPE_COMMENT = "tab_comment";
-
     public static final String KEY_TAB_TYPE = "key_tab_type";
 
     public static void startProfileActivity(Context context, String tabType) {
@@ -48,20 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
         String[] tabs = getResources().getStringArray(R.array.profile_tabs);
         ViewPager2 viewPager = binding.viewPager;
         TabLayout tabLayout = binding.tabLayout;
-//        autoRefresh当我们调用viewpager的adapter#notifychanged方法的时候,要不要主动的吧tabLayout选项卡移除掉 重新配置
-        new TabLayoutMediator(tabLayout, viewPager, false, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(tabs[position]);
-            }
-        }).attach();
-        int initTabPosition = getInitTabPosition();
-        if (initTabPosition != 0) {
-//            等待viewpager页面加载完成后切换页面
-            viewPager.post(() -> {
-                viewPager.setCurrentItem(initTabPosition);
-            });
-        }
+
         viewPager.setAdapter(new FragmentStateAdapter(this) {
             @NonNull
             @Override
@@ -86,6 +72,23 @@ public class ProfileActivity extends AppCompatActivity {
                 return tabs.length;
             }
         });
+
+        //        autoRefresh当我们调用viewpager的adapter#notifychanged方法的时候,要不要主动的吧tabLayout选项卡移除掉 重新配置
+        new TabLayoutMediator(tabLayout, viewPager, false, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+//                实现tab与viewpager的联动
+                tab.setText(tabs[position]);
+            }
+        }).attach();
+        int initTabPosition = getInitTabPosition();
+        if (initTabPosition != 0) {
+//            等待viewpager页面加载完成后切换页面
+            viewPager.post(() -> {
+                viewPager.setCurrentItem(initTabPosition);
+            });
+        }
+
         binding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -96,6 +99,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+//    根据点击跳转的类型 进行tab索引
     private int getInitTabPosition() {
         String initTab = getIntent().getStringExtra(KEY_TAB_TYPE);
         switch (initTab) {

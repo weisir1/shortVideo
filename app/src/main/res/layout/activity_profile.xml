@@ -184,12 +184,13 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_40" />
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"

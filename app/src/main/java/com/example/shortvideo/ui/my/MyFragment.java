@@ -1,5 +1,6 @@
 package com.example.shortvideo.ui.my;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,7 +22,7 @@ import com.example.shortvideo.ui.login.UserManager;
 import com.example.shortvideo.utils.StatusBar;
 
 @FragmentDestination(pageUrl = "main/tabs/my", asStarter = false, needLogin = true)
-public class MyFragment extends Fragment {
+public class MyFragment extends Fragment implements View.OnClickListener {
 
     private MyViewModel dashboardViewModel;
     private FragmentDashboardBinding binding;
@@ -39,7 +40,7 @@ public class MyFragment extends Fragment {
         User user = UserManager.get().getUser();
         binding.setUser(user);
 //        更新用户登陆信息
-        UserManager.get().refresh().observe(getViewLifecycleOwner(),user1 -> {
+        UserManager.get().refresh().observe(getViewLifecycleOwner(), user1 -> {
             binding.setUser(user1);
         });
         binding.actionLayout.setOnClickListener(v -> {
@@ -52,11 +53,16 @@ public class MyFragment extends Fragment {
                     })
                     .setNegativeButton(getString(R.string.fragment_my_logout_cancel), null).create().show();
         });
+        binding.goDetail.setOnClickListener(this);
+        binding.userFeed.setOnClickListener(this);
+        binding.userComment.setOnClickListener(this);
+        binding.userFavorite.setOnClickListener(this);
+        binding.userHistory.setOnClickListener(this);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        StatusBar.lightStatusBar(getActivity(),false);
+        StatusBar.lightStatusBar(getActivity(), false);
         super.onCreate(savedInstanceState);
     }
 
@@ -64,6 +70,28 @@ public class MyFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
 //        当myfragment变得可见时状态栏的颜色就会变为黑体白字 不可见时变为白体黑字
-        StatusBar.lightStatusBar(getActivity(),hidden);
+        StatusBar.lightStatusBar(getActivity(), hidden);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.go_detail:
+                ProfileActivity.startProfileActivity(getContext(),ProfileActivity.TAB_TYPE_ALL);
+                break;
+            case R.id.user_feed:
+                ProfileActivity.startProfileActivity(getContext(),ProfileActivity.TAB_TYPE_FEED);
+                break;
+            case R.id.user_comment:
+                ProfileActivity.startProfileActivity(getContext(),ProfileActivity.TAB_TYPE_COMMENT);
+                break;
+            case R.id.user_favorite:
+                ProfileActivity.startProfileActivity(getContext(),ProfileActivity.TAB_TYPE_ALL);
+                break;
+            case R.id.user_history:
+                ProfileActivity.startProfileActivity(getContext(),ProfileActivity.TAB_TYPE_ALL);
+                break;
+        }
     }
 }

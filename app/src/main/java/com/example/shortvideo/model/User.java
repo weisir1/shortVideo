@@ -2,13 +2,10 @@ package com.example.shortvideo.model;
 
 import android.text.TextUtils;
 
-import androidx.annotation.Nullable;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
-import androidx.databinding.library.baseAdapters.BR;
 
-import org.w3c.dom.Text;
-
+import com.example.shortvideo.BR;
 import java.io.Serializable;
 import java.util.Objects;
 

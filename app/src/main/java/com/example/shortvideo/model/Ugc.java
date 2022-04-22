@@ -3,8 +3,8 @@ package com.example.shortvideo.model;
 import androidx.annotation.Nullable;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
-import androidx.databinding.library.baseAdapters.BR;
 
+import com.example.shortvideo.BR;
 
 import java.io.Serializable;
 import java.util.Objects;

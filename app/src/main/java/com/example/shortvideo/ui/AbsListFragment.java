@@ -30,7 +30,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public abstract class   AbsListFragment<T, M extends AbsViewModel<T>> extends Fragment implements OnRefreshListener, OnLoadMoreListener {
+public abstract class AbsListFragment<T, M extends AbsViewModel<T>> extends Fragment implements OnRefreshListener, OnLoadMoreListener {
     private LayoutRefreshViewBinding binding;
     public RecyclerView recyclerView;
     public SmartRefreshLayout smartRefreshLayout;
@@ -41,16 +41,16 @@ public abstract class   AbsListFragment<T, M extends AbsViewModel<T>> extends Fr
     protected M mViewModel;
     public PageListPlayDetector detector;
 
- /*   @Override
-    protected void initViewModel() {
-        genericViewModel();
-    }
+    /*   @Override
+       protected void initViewModel() {
+           genericViewModel();
+       }
 
-    @Override
-    protected DataBindingConfig getDataBindingConfig() {
-        return null;
-    }
-*/
+       @Override
+       protected DataBindingConfig getDataBindingConfig() {
+           return null;
+       }
+   */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public abstract class   AbsListFragment<T, M extends AbsViewModel<T>> extends Fr
         smartRefreshLayout = binding.refreshLayout;
         emptyView = binding.emptyView;
 
-        adapter =  getAdapter();
+        adapter = getAdapter();
         recyclerView.setAdapter(adapter);
 
         smartRefreshLayout.setEnableRefresh(true);
@@ -108,7 +108,7 @@ public abstract class   AbsListFragment<T, M extends AbsViewModel<T>> extends Fr
 //          在callback中有下拉与上拉边界回调监听，当没有数据或加载第一个数据时,更新getBoundaryPageData(boolean值)
 //           若有数据 追加到适配器上,若没有数据 关闭上下拉动画 并且显示空view界面
 
-        detector = new PageListPlayDetector(this,binding.recyclerView);
+        detector = new PageListPlayDetector(this, binding.recyclerView);
 //            通过监听boundaryPageData的数据变化控制空布局的显隐藏
         mViewModel.getBoundaryPageData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override

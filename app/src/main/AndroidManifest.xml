@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.my.ProfileActivity"></activity>
+        <activity android:name=".AbsListActivity"></activity>
+        <activity android:name=".ui.my.ProfileActivity" />
         <activity android:name=".ui.find.TagFeedListActivity" />
         <activity
             android:name=".ui.pulish.PublishActivity"

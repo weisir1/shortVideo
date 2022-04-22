@@ -340,6 +340,7 @@ public class InteractionPresenter {
                         if (response.body != null) {
                             boolean result = response.body.getBooleanValue("result");
                             ((MutableLiveData) liveData).postValue(result);
+                            showToast("评论删除成功");
                         }
                     }
 

@@ -62,7 +62,7 @@ public class ProfileListAdapter extends FeedAdapter {
                         .observe((LifecycleOwner) context, aBoolean -> {
                             refreshList(feed);
                         });
-            } else { //否则为帖子页面
+            } else {
                 InteractionPresenter.deleteFeed(context, feed.itemId)
                         .observe((LifecycleOwner) context, aBoolean -> {
 //                           删除成功之后,同样要刷新列表
@@ -74,10 +74,10 @@ public class ProfileListAdapter extends FeedAdapter {
 
     private void refreshList(Feed delete) {
         PagedList<Feed> currentList = getCurrentList();
-        MutableItemKeyedDataSource<Long, Feed> dataSource = new MutableItemKeyedDataSource<Long, Feed>((ItemKeyedDataSource) currentList.getDataSource()) {
+        MutableItemKeyedDataSource<Integer, Feed> dataSource = new MutableItemKeyedDataSource<Integer, Feed>((ItemKeyedDataSource) currentList.getDataSource()) {
             @NonNull
             @Override
-            public Long getKey(@NonNull Feed item) {
+            public Integer getKey(@NonNull Feed item) {
                 return item.id;
             }
         };

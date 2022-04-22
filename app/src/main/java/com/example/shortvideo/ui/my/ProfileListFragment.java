@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.paging.PagedList;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,10 +14,11 @@ import com.example.shortvideo.model.Feed;
 import com.example.shortvideo.ui.AbsListFragment;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
-public class ProfileListFragment extends AbsListFragment<T, ProfileViewModel> {
+public class ProfileListFragment extends AbsListFragment<Feed, ProfileViewModel> {
 
     private String tabType;
     private boolean shouldPause = true;
+    private PageListPlayDetector detector;
 
     public static ProfileListFragment newInstance(String tabType) {
         Bundle args = new Bundle();
@@ -34,27 +36,26 @@ public class ProfileListFragment extends AbsListFragment<T, ProfileViewModel> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        PageListPlayDetector detector = new PageListPlayDetector(this, recyclerView);
+        detector = new PageListPlayDetector(this, recyclerView);
         mViewModel.setProfileType(tabType);
         smartRefreshLayout.setEnableRefresh(false);
-
     }
 
     @Override
     public PagedListAdapter getAdapter() {
         tabType = getArguments().getString(ProfileActivity.KEY_TAB_TYPE);
 
-        return new ProfileListAdapter(getContext(),tabType){
+        return new ProfileListAdapter(getContext(), tabType) {
             @Override
             public void onViewDetachedFromWindow2(ViewHolder holder) {
-                if (holder.isVideoItem()){
+                if (holder.isVideoItem()) {
                     detector.removeTarget(holder.getListPlayerView());
                 }
             }
 
             @Override
             public void onViewAttachedToWindow2(ViewHolder holder) {
-                if (holder.isVideoItem()){
+                if (holder.isVideoItem()) {
                     detector.addTarget(holder.getListPlayerView());
                 }
             }
@@ -69,7 +70,7 @@ public class ProfileListFragment extends AbsListFragment<T, ProfileViewModel> {
     @Override
     public void onPause() {
         super.onPause();
-        if (shouldPause){
+        if (shouldPause) {
             detector.onResume();
         }
     }
@@ -82,7 +83,8 @@ public class ProfileListFragment extends AbsListFragment<T, ProfileViewModel> {
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-
+        PagedList<Feed> currentList = adapter.getCurrentList();
+        finishRefresh(currentList != null && currentList.size() > 0);
     }
 
     @Override
