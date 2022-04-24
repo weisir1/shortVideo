@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,6 +9,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/color_000"
         android:orientation="vertical">
 
         <TextureView
@@ -24,8 +26,17 @@
             android:text="轻触拍照,长按摄像"
             android:textColor="@color/color_white" />
 
-        <com.example.shortvideo.view.RecordView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <ImageView
+            android:id="@+id/switch_capture"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="@dimen/dp_35"
+            android:layout_marginRight="@dimen/dimen_20"
+            android:src="@drawable/switchcapb"
+            tools:ignore="RtlHardcoded" />
+
+        <com.example.shortvideo.view.RecordView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/record_view"
             android:layout_width="100dp"
             android:layout_height="100dp"

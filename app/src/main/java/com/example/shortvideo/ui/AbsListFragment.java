@@ -41,16 +41,7 @@ public abstract class AbsListFragment<T, M extends AbsViewModel<T>> extends Frag
     protected M mViewModel;
     public PageListPlayDetector detector;
 
-    /*   @Override
-       protected void initViewModel() {
-           genericViewModel();
-       }
 
-       @Override
-       protected DataBindingConfig getDataBindingConfig() {
-           return null;
-       }
-   */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

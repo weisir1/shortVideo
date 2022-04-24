@@ -2,6 +2,7 @@ package com.example.shortvideo.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
@@ -21,6 +22,7 @@ public class WindowInsetsFrameLayout extends FrameLayout {
     @Override
     public void addView(View child) {   //因为sofa界面是在发送之后才被创建的,也就是说分发过程中,sofa界面还不算是其子view,所以仍旧调用不到,所以在添加玩以后需要在调用一次
         super.addView(child);
+        Log.i("WeiSir", "WindowInsetsFrameLayout---> addView: " );
         requestApplyInsets();
     }
 

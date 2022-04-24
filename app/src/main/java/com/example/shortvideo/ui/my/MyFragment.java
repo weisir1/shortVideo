@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.libnavannotation.FragmentDestination;
+import com.example.shortvideo.AbsListActivity;
 import com.example.shortvideo.R;
 import com.example.shortvideo.databinding.FragmentDashboardBinding;
 import com.example.shortvideo.model.User;
@@ -87,10 +88,10 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 ProfileActivity.startProfileActivity(getContext(),ProfileActivity.TAB_TYPE_COMMENT);
                 break;
             case R.id.user_favorite:
-                ProfileActivity.startProfileActivity(getContext(),ProfileActivity.TAB_TYPE_ALL);
+                AbsListActivity.startListActivity(getContext(),AbsListActivity.BEHAVIOR_FAVORITE);
                 break;
             case R.id.user_history:
-                ProfileActivity.startProfileActivity(getContext(),ProfileActivity.TAB_TYPE_ALL);
+                AbsListActivity.startListActivity(getContext(),AbsListActivity.BEHAVIOR_HISTORY);
                 break;
         }
     }

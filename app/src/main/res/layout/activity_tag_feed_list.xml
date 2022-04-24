@@ -26,10 +26,10 @@
             layout="@layout/layout_refresh_view" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
             android:id="@+id/top_bar"
-            android:fitsSystemWindows="true"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
 
             <ImageView
                 android:id="@+id/action_back"
@@ -48,11 +48,10 @@
                 android:layout_marginStart="@dimen/dp_10"
                 app:image_url="@{tagList.icon}"
                 app:isCircle="@{false}"
-                app:radius="@{8}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/action_back"
                 app:layout_constraintTop_toTopOf="parent"
-                />
+                app:radius="@{8}" />
 
             <TextView
                 android:id="@+id/tag_title"

@@ -22,7 +22,7 @@ public class StatusBar {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);   // 允许window绘制状态栏背景
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(Color.TRANSPARENT);  //如果不指定状态栏为灰色
+        window.setStatusBarColor(Color.TRANSPARENT);  //如果不指定状态栏为绿色
     }
 
     public static void lightStatusBar(Activity activity, boolean light) {
